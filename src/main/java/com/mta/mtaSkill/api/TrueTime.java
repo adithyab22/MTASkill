@@ -22,26 +22,7 @@ public class TrueTime {
 	 * @return A list of predictions for a specific bus route arriving at a specific stop
 	 */
 	public static List<Message> generatePredictions(String route, String stationID ){
-		return TrueTimeAPI.getPredictions(route, stationID);
-	}
-	
-	/**
-	 * When no route is specified, returns arrival information for all buses arriving at this stop within the next 30 minutes.
-	 * @param stationID The station ID
-	 * @param maxValues The number of predictions to be returned
-	 * @return A list of predictions for all bus routes arriving at a specific stop
-	 */
-	public static List<Message> generatePredictions(String stationID, int maxValues){
-		return TrueTimeAPI.getPredictions(stationID, maxValues);
-	}
-	
-	/**
-	 * When no route is specified, returns arrival information for all buses arriving at this stop within the next 30 minutes.
-	 * @param stationID The station ID
-	 * @return A list of predictions for all bus routes arriving at a specific stop
-	 */
-	public static List<Message> generatePredictions(String stationID){
-		return TrueTimeAPI.getPredictions(stationID);
+		return MTAHerokuApi.getPredictions(route, stationID);
 	}
 	
 	/**
@@ -49,7 +30,7 @@ public class TrueTime {
 	 * @return All True Time routes
 	 */
 	public static List<Message> generateRoutes() {
-		return TrueTimeAPI.getRoutes();
+		return MTAHerokuApi.getRoutes();
 	}
 	
 	

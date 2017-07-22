@@ -78,7 +78,7 @@ public class NearestStopLocator {
     }
 
     /**
-     * Pads "Pittsburgh" to input and requests the Google location API which
+     * Pads "Milwaukee" to input and requests the Google location API which
      * returns list of location details.
      *
      * @param source name / Landmark / Any keyword/s to identify source location
@@ -90,7 +90,7 @@ public class NearestStopLocator {
         log.info("getSourceLocationCoordinates: source={}", source);
         JSONObject currentLocationDetails = null;
         List<Location> listOfLocationCoordinates = null;
-        String currLocation = (source + " Pittsburgh").replaceAll("\\s", "+");
+        String currLocation = (source + " Milwaukee").replaceAll("\\s", "+");
         String currLocationURL = TEXT_SEARCH_URL + "?query=" + currLocation + "&sensor=false&key=" + GOOGLE_MAPS_KEY;
         currentLocationDetails = JsonUtils.readJsonFromUrl(currLocationURL);
         if (currentLocationDetails != null) {
@@ -229,6 +229,8 @@ public class NearestStopLocator {
     /**
      * *************************************Util
      * methods**********************************************
+     * @param distance
+     * @return 
      */
     protected static double convertMileToFeet(String distance) {
         log.info("convertMileToFeet: distance={}", distance);

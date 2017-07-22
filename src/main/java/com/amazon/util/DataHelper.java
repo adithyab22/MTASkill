@@ -132,14 +132,14 @@ public class DataHelper {
 		Iterator<Message> iterator = routes.iterator();
 		while (iterator.hasNext()) {
 			Message element = (Message) iterator.next();
-			if (element.getMessageType().equalsIgnoreCase(Message.ERROR)) {
-				throw new APIException("Error from API:"+element.getError());
-			}
-			if (element.getMessageType().equalsIgnoreCase(Message.ROUTE)) {
+//			if (element.getMessageType().equalsIgnoreCase(Message.ERROR)) {
+//				throw new APIException("Error from API:"+element.getError());
+//			}
+			//if (element.getMessageType().equalsIgnoreCase(Message.ROUTE)) {
 				if (routeID.equalsIgnoreCase(element.getRouteID())) {
 					output = Route.createRoute(element);
 				}
-			}
+			//}
 		}
 		if (output==null){
 			throw new APIException("Route does not match API");

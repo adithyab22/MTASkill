@@ -260,9 +260,9 @@ public class OutputHelper {
      */
     public static ArrayList<Result> getResults(List<Message> messages){
     	ArrayList<Result> results = new ArrayList<Result>();
-		if (messages.size() == 0 || messages.get(0).getMessageType().equals(Message.ERROR)){
-    		return results; //return an empty ArrayList
-    	}
+//		//if (messages.size() == 0 || messages.get(0).getMessageType().equals(Message.ERROR)){
+//    		return results; //return an empty ArrayList
+//    	}
 
 		for (int i = 0; i < messages.size(); i++) {
 			results.add(new Result(messages.get(i).getRouteID(), messages.get(i).getEstimate()));

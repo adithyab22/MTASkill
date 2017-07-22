@@ -18,6 +18,7 @@ public class GetNextBusSpeechletRequestStreamHandler extends
         supportedApplicationIds.add("amzn1.echo-sdk-ams.app.247dc98a-b0bb-4d86-9d22-2959e979da3c");
         supportedApplicationIds.add("amzn1.ask.skill.71a52a86-930b-464d-a47b-b488dddf271f");
         supportedApplicationIds.add("amzn1.ask.skill.dc703d7d-92cb-48fd-a631-ce010e590079");
+        supportedApplicationIds.add("amzn1.ask.skill.4e1aa980-7943-4a0e-9654-140c6298db8a");
     }
 
     public GetNextBusSpeechletRequestStreamHandler() {

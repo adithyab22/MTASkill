@@ -640,11 +640,8 @@ public class GetNextBusSpeechlet implements Speechlet {
 	 */
 	private List<Message> getPredictions() {
 		List<Message> messages = new ArrayList<Message>();
-		if (skillContext.isAllRoutes()) {
-			messages = TrueTime.generatePredictions(data.getStopID());
-		} else {
-			messages = TrueTime.generatePredictions(data.getRouteID(), data.getStopID());
-		}
+		
+		messages = TrueTime.generatePredictions(data.getRouteID(), data.getStopID());
 		return messages;
 	}
 	

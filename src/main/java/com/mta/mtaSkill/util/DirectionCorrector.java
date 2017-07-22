@@ -13,14 +13,11 @@ public class DirectionCorrector {
     private static final Map<String, String> expectedInputs = new HashMap<>(200);
 
     static {
-        expectedInputs.put("INBOUND", "INBOUND");
-        expectedInputs.put("INBONE", "INBOUND");
-        expectedInputs.put("INBALL", "INBOUND");
-        expectedInputs.put("OUTBOUND", "OUTBOUND");
-        expectedInputs.put("ALBUM", "OUTBOUND");
-        expectedInputs.put("ALBON", "OUTBOUND");
-        expectedInputs.put("TOWARDS", "INBOUND");
-        expectedInputs.put("AWAY", "OUTBOUND");
+        expectedInputs.put("EAST", "EAST");
+        expectedInputs.put("WEST", "WEST");
+        expectedInputs.put("NORTH", "NORTH");
+        expectedInputs.put("SOUTH", "SOUTH");
+        
     }
 
     public static String getDirection(String inputDirection) throws Exception {

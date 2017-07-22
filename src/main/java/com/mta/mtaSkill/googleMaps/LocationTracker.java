@@ -21,6 +21,12 @@ import com.mta.mtaSkill.api.TrueTimeAPI;
 import com.mta.mtaSkill.util.JsonUtils;
 import com.mta.mtaSkill.util.Location;
 import com.mta.mtaSkill.util.Stop;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.URL;
+import java.nio.charset.Charset;
 
 /**
  *
@@ -93,37 +99,63 @@ public class LocationTracker {
      * @throws IOException
      * @throws JSONException 
      */
+       private static final String HEROKU_APP_STOPS_API = "https://mke-bus.herokuapp.com/get/all/stops/where?route_id=";
 	protected static List<Stop> getStopsAsJson(String route, String direction) throws IOException, JSONException{
     	log.trace("getStopsAsJson: route={}, direction={}", route, direction);
-    	//String url =  "http://truetime.portauthority.org/bustime/api/v2/getstops?key=929FvbAPSEeyexCex5a7aDuus&rt="+routeID+"&dir="+direction.toUpperCase()+"&format=json";
-    	String url= TrueTimeAPI.TRUETIME_URL+TrueTimeAPI.VERSION+
-    			TrueTimeAPI.CMD_STOPS+"?key="+TrueTimeAPI.TRUETIME_ACCESS_ID+"&rtpidatafeed="+
-    			TrueTimeAPI.AGENCY+"&rt="+route+"&dir="+direction.toUpperCase()+"&format=json";
-    	JSONObject stopsJSON = null;
-       List<Stop> listOfStops = null;
-       stopsJSON = JsonUtils.readJsonFromUrl(url);
-       
-       listOfStops = getStopDetails(stopsJSON);
-       //listOfStops = GoogleMaps.generateStops(stopsJSON);
-       
-       return listOfStops;
-    }
-	
-	protected static List<Stop> getStopDetails(JSONObject json) throws JSONException {
-    	List<Stop> stops = new ArrayList<>();
-        JSONArray stopsResponse = json.getJSONObject("bustime-response").getJSONArray("stops");
+    	List<Stop> messageList = new ArrayList<>();
+            
 
-        if (stopsResponse != null) {
-            for (int i = 0; i < stopsResponse.length(); i++) {
-                JSONObject stop = stopsResponse.getJSONObject(i);
-                double lat = stop.getDouble("lat");
-                double lon = stop.getDouble("lon");
-                String stopID = stop.getString("stpid");
-                String stpnm = stop.getString("stpnm");
-                Stop s = new Stop(stopID, stpnm, lat, lon);
-                stops.add(s);
-            }
+       String JSON_URL = HEROKU_APP_STOPS_API+ route+"&direction="+direction.toUpperCase();
+       
+       JSONObject obj;
+       try {
+           obj = readJsonFromUrl(JSON_URL);
+
+           JSONArray arr = obj.getJSONArray("with");
+
+           for (int i = 0; i < arr.length(); i++) {
+               String stopId = arr.getJSONObject(i).getString("id");
+               System.out.println("stopId"+stopId);
+               String stopName = arr.getJSONObject(i).getString("name");
+               System.out.println("stopName"+stopName);
+               double latitude = arr.getJSONObject(i).getDouble("latitude");
+               
+                System.out.println("latitude"+latitude);
+               double longitude = arr.getJSONObject(i).getDouble("longitude");
+               
+                System.out.println("longitude"+longitude);
+                Stop s = new Stop(stopId, stopName, latitude, longitude);
+               messageList.add(s);
+
+           }
+
+       } catch (IOException ex) {
+           log.info("IOException in getStopsAsJson");
+       } catch (JSONException ex) {
+          log.info("JSONException in  getStopsAsJson");
+       }
+
+       return messageList;
+    }
+        
+    private static String readAll(Reader rd) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        int cp;
+        while ((cp = rd.read()) != -1) {
+            sb.append((char) cp);
         }
-        return stops;
+        return sb.toString();
+    }
+   
+    public static JSONObject readJsonFromUrl(String url) throws IOException, JSONException {
+        InputStream is = new URL(url).openStream();
+        try {
+            BufferedReader rd = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+            String jsonText = readAll(rd);
+            JSONObject json = new JSONObject(jsonText);
+            return json;
+        } finally {
+            is.close();
+        }
     }
 }
